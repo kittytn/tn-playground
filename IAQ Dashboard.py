@@ -285,3 +285,4 @@ except KeyboardInterrupt:
     print("Simulation stopped.")
 finally:
     connection.close()
+#ใช้ python -m streamlit run "IAQ Dashboard.py" ใน terminal เพื่อรัน
