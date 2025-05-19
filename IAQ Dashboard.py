@@ -223,7 +223,7 @@ try:
             st.session_state.data = pd.concat([
                 st.session_state.data,
                 pd.DataFrame([receive[UUID]])
-            ]).tail(1000)
+            ]).tail(3600)
 
         if detect == {}:
             for UUID in receive.keys():
