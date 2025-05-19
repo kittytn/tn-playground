@@ -118,13 +118,16 @@ def sensor_error2():
     checked23 = ["temperature","humidity","co2"]
     for UUID in receive.keys():
         detect[UUID] = []
-        detect[UUID].append(receive[UUID]["temperature"])
-        detect[UUID].append(receive[UUID]["humidity"])
-        detect[UUID].append(receive[UUID]["co2"])
+        detect[UUID].append(float(receive[UUID]["temperature"]))
+        detect[UUID].append(float(receive[UUID]["humidity"]))
+        detect[UUID].append(float(receive[UUID]["co2"]))
     for UUID in detect.keys():
+        w=[]
         for i in range(3):
-            if float(detect[UUID][i]) >= checked21[i] or float(detect[UUID][i]) < checked22[i]:
-                detected.append(["Invalid",checked23[i].upper(),"value from sensor:",UUID])
+            if detect[UUID][i] >= checked21[i] or detect[UUID][i] <= checked22[i]:
+                w.append(checked23[i])
+        if len(w) != 0:
+            detected.append(["Invalid",",".join(str(item) for item in w),"value from sensor:",UUID])
     return detected
 
 def sensor_error3(): #ทำงานทุก15วินาที
@@ -159,12 +162,12 @@ def error_detection():
         if count1[k] >= 40 and k not in e1:
                 e1.append(k)
     if len(e1) != 0:
-        s1 = ["Error Type 1:",e1]
+        s1 = ["Same data (>10mins) from:",",".join(str(item) for item in e1)]
         alert.append(s1)
         
     error2 = sensor_error2()
     for word in error2:
-        s2 = word[0]+" "+word[1]+" "+word[2]+" "+word[3]
+        s2 = " ".join(str(item) for item in word)
         alert.append([s2])
     checked31 = sensor_error3()
     for i in range(len(checked31)):
@@ -175,7 +178,7 @@ def error_detection():
         else:
             count3[sensor_ids[i]] = 0
     if len(e3) != 0:
-        s3 = ["Error Type 3:",e3]
+        s3 = ["Too High [co2] from:",",".join(str(item) for item in e3)]
         alert.append(s3)
     return alert
 
@@ -204,10 +207,10 @@ try:
                 print(alert_message)
 
         else:
-            print("✅ สถานะปกติ", icon="✅")
+            print("✅ สถานะปกติ")
 #         for word in alert:
 #             print(word)
-        time.sleep(15)
+        time.sleep(0.5)
 except KeyboardInterrupt: #กดctrl+c
     print("Simulation stopped.")
 finally:
