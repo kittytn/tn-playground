@@ -188,7 +188,7 @@ def error_detection():
 try:
     while True:
         for UUID in sensor_ids:
-            data = generate_sensor_data(UUID)#*
+            data = generate_sensor_data3(UUID)#*
             message = json.dumps(data)
             channel.basic_publish(exchange='',
                                   routing_key=QUEUE_NAME,
@@ -212,7 +212,7 @@ try:
             print("✅ สถานะปกติ")
 #         for word in alert:
 #             print(word)
-        time.sleep(15)
+        time.sleep(0.5)
 except KeyboardInterrupt: #กดctrl+c
     print("Simulation stopped.")
 finally:

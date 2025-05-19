@@ -167,16 +167,14 @@ def error_detection():
     for word in e2:
         s2 = " ".join(str(item) for item in word)
         alert.append([s2])
-        
     checked31 = sensor_error3()
     for i in range(len(checked31)):
         if checked31[i] == True:
             count3[sensor_ids[i]] += 1
+            if count3[sensor_ids[i]] >= 80 and sensor_ids[i] not in e3:
+                e3.append(sensor_ids[i])
         else:
             count3[sensor_ids[i]] = 0
-    for k in count3.keys():
-        if count1[k] >= 80 and k not in e1:
-                e3.append(k)
     if len(e3) != 0:
         s3 = ["Too High [co2] from:",",".join(str(item) for item in e3)]
         alert.append(s3)
@@ -223,7 +221,7 @@ try:
             st.session_state.data = pd.concat([
                 st.session_state.data,
                 pd.DataFrame([receive[UUID]])
-            ]).tail(1000)
+            ]).tail(3600)
 
         if detect == {}:
             for UUID in receive.keys():
