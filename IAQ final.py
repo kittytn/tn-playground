@@ -144,6 +144,8 @@ def sensor_error3(): #ทำงานทุก15วินาที
     for UUID in detect.keys():
         if detect[UUID][2] > 1000:
             check31.append(True)
+        else:
+            check31.append(False)
     return check31
 #============================================================================
 #============================================================================
@@ -186,7 +188,7 @@ def error_detection():
 try:
     while True:
         for UUID in sensor_ids:
-            data = generate_sensor_data2(UUID)#*
+            data = generate_sensor_data(UUID)#*
             message = json.dumps(data)
             channel.basic_publish(exchange='',
                                   routing_key=QUEUE_NAME,
@@ -210,7 +212,7 @@ try:
             print("✅ สถานะปกติ")
 #         for word in alert:
 #             print(word)
-        time.sleep(0.5)
+        time.sleep(15)
 except KeyboardInterrupt: #กดctrl+c
     print("Simulation stopped.")
 finally:
