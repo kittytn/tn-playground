@@ -212,7 +212,7 @@ try:
             print("✅ สถานะปกติ")
 #         for word in alert:
 #             print(word)
-        time.sleep(0.5)
+        time.sleep(15)
 except KeyboardInterrupt: #กดctrl+c
     print("Simulation stopped.")
 finally:
